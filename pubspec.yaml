@@ -38,6 +38,9 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   path_provider: ^2.1.4
+  google_fonts: ^6.2.1
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
