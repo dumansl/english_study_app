@@ -1,6 +1,7 @@
 import 'package:english_study_app/model/word_model.dart';
 import 'package:english_study_app/screens/word_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
@@ -18,6 +19,15 @@ class EnglishStudyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: WordListScreen(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en', ''),
+        Locale('tr', ''),
+      ],
     );
   }
 }
