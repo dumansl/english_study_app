@@ -30,8 +30,8 @@ class _WordListScreenState extends State<WordListScreen> {
   void _addWord() {
     if (_formKey.currentState!.validate()) {
       final word = Word(
-        english: _englishController.text,
-        turkish: _turkishController.text,
+        english: _englishController.text.trim(),
+        turkish: _turkishController.text.trim(),
         date: DateTime.now(),
       );
       _wordBox!.add(word);
