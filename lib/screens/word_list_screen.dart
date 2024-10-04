@@ -16,7 +16,7 @@ class WordListScreen extends StatefulWidget {
 class _WordListScreenState extends State<WordListScreen> {
   final TextEditingController _englishController = TextEditingController();
   final TextEditingController _turkishController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>(); // Form key
   Box<Word>? _wordBox;
 
   String? _selectedFilter;
