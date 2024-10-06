@@ -5,12 +5,14 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String labelText;
   final String validationMessage;
+  final FocusNode? focusNode;
 
   const CustomTextFormField({
     super.key,
     required this.controller,
     required this.labelText,
     required this.validationMessage,
+    this.focusNode,
   });
 
   @override
@@ -65,6 +67,7 @@ class CustomTextFormField extends StatelessWidget {
         }
         return null;
       },
+      focusNode: focusNode,
     );
   }
 }

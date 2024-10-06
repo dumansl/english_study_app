@@ -16,6 +16,8 @@ class WordListScreen extends StatefulWidget {
 class _WordListScreenState extends State<WordListScreen> {
   final TextEditingController _englishController = TextEditingController();
   final TextEditingController _turkishController = TextEditingController();
+  final FocusNode _englishFocusNode = FocusNode(); // İngilizce FocusNode
+  final FocusNode _turkishFocusNode = FocusNode(); // Türkçe FocusNode
   final _formKey = GlobalKey<FormState>();
   Box<Word>? _wordBox;
 
@@ -25,6 +27,13 @@ class _WordListScreenState extends State<WordListScreen> {
   void initState() {
     super.initState();
     _wordBox = Hive.box<Word>('words');
+  }
+
+  @override
+  void dispose() {
+    _englishFocusNode.dispose(); // FocusNode'ları dispose ediyoruz
+    _turkishFocusNode.dispose();
+    super.dispose();
   }
 
   void _addWord() {
@@ -37,7 +46,11 @@ class _WordListScreenState extends State<WordListScreen> {
       _wordBox!.add(word);
       _englishController.clear();
       _turkishController.clear();
+
       setState(() {});
+
+      // Kelime eklendikten sonra İngilizce alanına odaklanıyoruz
+      FocusScope.of(context).requestFocus(_englishFocusNode);
     }
   }
 
@@ -46,6 +59,9 @@ class _WordListScreenState extends State<WordListScreen> {
     _englishController.text = word.english;
     _turkishController.text = word.turkish;
     _wordBox!.deleteAt(index);
+
+    // Düzenleme sırasında Türkçe alanına odaklanıyoruz
+    FocusScope.of(context).requestFocus(_turkishFocusNode);
   }
 
   void _deleteWord(int index) {
@@ -89,7 +105,6 @@ class _WordListScreenState extends State<WordListScreen> {
   @override
   Widget build(BuildContext context) {
     final filteredWords = _filterWordsByDate();
-    debugPrint(DateTime.now().toString());
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 246, 245, 241),
       appBar: AppBar(
@@ -144,12 +159,14 @@ class _WordListScreenState extends State<WordListScreen> {
             children: [
               CustomTextFormField(
                 controller: _englishController,
+                focusNode: _englishFocusNode, // İngilizce FocusNode ekledik
                 labelText: 'İngilizce Kelime',
                 validationMessage: 'İngilizce kelime boş geçilemez',
               ),
               const SizedBox(height: 10),
               CustomTextFormField(
                 controller: _turkishController,
+                focusNode: _turkishFocusNode, // Türkçe FocusNode ekledik
                 labelText: 'Türkçe Kelime',
                 validationMessage: 'Türkçe kelime boş geçilemez',
               ),

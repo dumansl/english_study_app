@@ -22,6 +22,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int _wrongAttempts = 0;
   bool _askEnglishToTurkish = true;
   final TextEditingController _answerController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
   void _generateRandomIndex() {
@@ -67,8 +68,22 @@ class _QuizScreenState extends State<QuizScreen> {
           }
         });
       }
+
       _answerController.clear();
     }
+  }
+
+  void _skipQuestion() {
+    setState(() {
+      _wrongAttempts = 0;
+      _showResultButton = false;
+      _isCorrect = false;
+      _askEnglishToTurkish = !_askEnglishToTurkish;
+      _generateRandomIndex();
+    });
+
+    // Soruyu geçtikten sonra alanı temizleyip odaklanma işlemi
+    _answerController.clear();
   }
 
   void _showAnswer() {
@@ -240,6 +255,13 @@ class _QuizScreenState extends State<QuizScreen> {
                   onPressed: _checkAnswer,
                   backgroundColor: const Color(0xff833FF1),
                   buttonTitle: "Cevapla",
+                  textColor: Colors.white,
+                ),
+                const SizedBox(height: 10),
+                CustomButton(
+                  onPressed: _skipQuestion,
+                  backgroundColor: const Color(0xff833FF1),
+                  buttonTitle: "Soruyu Geç",
                   textColor: Colors.white,
                 ),
                 const SizedBox(height: 10),
